@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 220" width="100%" height="100%">
+  <defs>
+    <radialGradient id="bgGrad_WHAT" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#f5f3ff"/>
+    </radialGradient>
+  </defs>
+  <rect width="260" height="220" rx="18" fill="url(#bgGrad_WHAT)" stroke="#e2e8f0" stroke-width="2"/>
+  <g transform="translate(130, 105)">
+    
+            <circle cx="0" cy="0" r="32" fill="#ede9fe" stroke="#7c3aed" stroke-width="3"/>
+            <path d="M-8,-14 C-8,-26 12,-26 12,-14 C12,-4 0,0 0,8" stroke="#6d28d9" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+            <circle cx="0" cy="18" r="3" fill="#6d28d9"/>
+        
+  </g>
+  <rect x="14" y="14" width="38" height="38" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
+  <text x="33" y="39" font-size="20" text-anchor="middle">❓</text>
+  <text x="130" y="195" font-family="'Plus Jakarta Sans', sans-serif" font-size="14" font-weight="800" fill="#7c3aed" text-anchor="middle">WHAT</text>
+</svg>

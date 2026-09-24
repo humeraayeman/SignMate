@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 220" width="100%" height="100%">
+  <defs>
+    <radialGradient id="bgGrad_TEACHER" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#fffbeb"/>
+    </radialGradient>
+  </defs>
+  <rect width="260" height="220" rx="18" fill="url(#bgGrad_TEACHER)" stroke="#e2e8f0" stroke-width="2"/>
+  <g transform="translate(130, 105)">
+    
+            <rect x="-35" y="-30" width="70" height="48" rx="6" fill="#fef3c7" stroke="#d97706" stroke-width="3"/>
+            <line x1="-25" y1="-14" x2="25" y2="-14" stroke="#b45309" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="-25" y1="-4" x2="15" y2="-4" stroke="#b45309" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="-25" y1="6" x2="20" y2="6" stroke="#b45309" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="28" cy="22" r="8" fill="#fbbf24" stroke="#d97706" stroke-width="2"/>
+            <path d="M28,30 L28,45" stroke="#d97706" stroke-width="3"/>
+        
+  </g>
+  <rect x="14" y="14" width="38" height="38" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
+  <text x="33" y="39" font-size="20" text-anchor="middle">🧑‍🏫</text>
+  <text x="130" y="195" font-family="'Plus Jakarta Sans', sans-serif" font-size="14" font-weight="800" fill="#f59e0b" text-anchor="middle">TEACHER</text>
+</svg>

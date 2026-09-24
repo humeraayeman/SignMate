@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 220" width="100%" height="100%">
+  <defs>
+    <radialGradient id="bgGrad" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#f8fafc"/>
+    </radialGradient>
+  </defs>
+  <rect width="260" height="220" rx="18" fill="url(#bgGrad)" stroke="#e2e8f0" stroke-width="2"/>
+  <g transform="translate(130, 105)">
+            <rect x="-25" y="-10" width="50" height="52" rx="12" fill="#fce7f3" stroke="#ec4899" stroke-width="4"/>
+            <rect x="-38" y="0" width="16" height="34" rx="6" fill="#fce7f3" stroke="#ec4899" stroke-width="3" transform="rotate(35 -38 0)"/>
+            <rect x="-22" y="-54" width="11" height="48" rx="5" fill="#fce7f3" stroke="#ec4899" stroke-width="4"/>
+            <rect x="18" y="-46" width="10" height="40" rx="5" fill="#fce7f3" stroke="#ec4899" stroke-width="4"/>
+            <rect x="-8" y="-16" width="10" height="20" rx="4" fill="#fbcfe8" stroke="#ec4899" stroke-width="2"/>
+            <rect x="5" y="-14" width="10" height="18" rx="4" fill="#fbcfe8" stroke="#ec4899" stroke-width="2"/>
+            <path d="M0,-2 L0,8" stroke="#db2777" stroke-width="2"/>
+        </g>
+  <rect x="14" y="14" width="38" height="38" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
+  <text x="33" y="39" font-size="20" text-anchor="middle">🤟</text>
+  <text x="130" y="195" font-family="'Plus Jakarta Sans', sans-serif" font-size="15" font-weight="800" fill="#ec4899" text-anchor="middle">I LOVE YOU</text>
+</svg>

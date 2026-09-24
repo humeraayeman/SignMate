@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="SignMate — Real-Time Indian Sign Language, Speech & Text Platform">
+    <title>SignMate — Indian Sign Language Platform</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<!-- Toast Notification Container -->
+<div id="toastContainer" class="toast-container" aria-live="polite"></div>
+
+<!-- Authentication Screen -->
+<div id="authScreen" class="auth-screen">
+    <div class="auth-card">
+        <div class="auth-brand">
+            <div class="brand-badge-icon">
+                <svg class="svg-icon" viewBox="0 0 24 24" style="width: 24px; height: 24px;">
+                    <path d="M18 11V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v0"></path>
+                    <path d="M14 10V4a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v2"></path>
+                    <path d="M10 10.5V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v8"></path>
+                    <path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"></path>
+                </svg>
+            </div>
+            <h1>SignMate</h1>
+            <p class="auth-subtitle">Indian Sign Language recognition and translation</p>
+        </div>
+
+        <div class="auth-tabs">
+            <button type="button" id="loginTabBtn" class="auth-tab active" onclick="showLoginTab()">Sign In</button>
+            <button type="button" id="registerTabBtn" class="auth-tab" onclick="showRegisterTab()">Create Account</button>
+        </div>
+
+        <!-- Login Form -->
+        <form id="loginForm" class="auth-form" onsubmit="event.preventDefault(); login();">
+            <div class="form-group">
+                <label for="loginEmail">Email address</label>
+                <div class="input-wrapper">
+                    <span class="input-icon">
+                        <svg class="svg-icon" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                    </span>
+                    <input type="email" id="loginEmail" placeholder="name@domain.com" autocomplete="email" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="loginPassword">Password</label>
+                <div class="input-wrapper">
+                    <span class="input-icon">
+                        <svg class="svg-icon" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                    </span>
+                    <input type="password" id="loginPassword" placeholder="••••••••" autocomplete="current-password" required>
+                </div>
+            </div>
+
+            <p id="loginMessage" class="auth-feedback"></p>
+
+            <button type="submit" id="loginSubmitBtn" class="btn btn-primary btn-block">
+                Sign In
+            </button>
+        </form>
+
+        <!-- Register Form -->
+        <form id="registerForm" class="auth-form hidden" onsubmit="event.preventDefault(); register();">
+            <div class="form-group">
+                <label for="registerName">Full Name</label>
+                <div class="input-wrapper">
+                    <span class="input-icon">
+                        <svg class="svg-icon" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    </span>
+                    <input type="text" id="registerName" placeholder="e.g. Humera" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="registerEmail">Email address</label>
+                <div class="input-wrapper">
+                    <span class="input-icon">
+                        <svg class="svg-icon" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                    </span>
+                    <input type="email" id="registerEmail" placeholder="name@domain.com" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="registerPassword">Password (min. 6 characters)</label>
+                <div class="input-wrapper">
+                    <span class="input-icon">
+                        <svg class="svg-icon" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                    </span>
+                    <input type="password" id="registerPassword" placeholder="••••••••" minlength="6" required>
+                </div>
+            </div>
+
+            <p id="registerMessage" class="auth-feedback"></p>
+
+            <button type="submit" id="registerSubmitBtn" class="btn btn-primary btn-block">
+                Create Account
+            </button>
+        </form>
+
+        <div class="auth-divider">
+            <span>or explore without an account</span>
+        </div>
+
+        <button type="button" id="guestBtn" class="btn btn-outline btn-block guest-btn" onclick="continueAsGuest()">
+            Continue as Guest
+        </button>
+
+        <p class="auth-footer-note">
+            Indian Sign Language (ISL) Recognition & Learning System
+        </p>
+    </div>
+</div>
+
+<!-- Main Application Screen -->
+<div id="appScreen" class="app-screen hidden">
+
+    <!-- Top Navigation Header -->
+    <header class="app-header">
+        <div class="header-inner">
+            <div class="header-brand" onclick="switchMode('home')" title="SignMate Dashboard">
+                <div class="brand-avatar">
+                    <svg class="svg-icon" viewBox="0 0 24 24" style="width: 20px; height: 20px; color: #fff;">
+                        <path d="M18 11V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v0"></path>
+                        <path d="M14 10V4a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v2"></path>
+                        <path d="M10 10.5V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v8"></path>
+                        <path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"></path>
+                    </svg>
+                </div>
+                <div class="brand-info">
+                    <div class="brand-title-row">
+                        <span class="brand-name">SignMate</span>
+                        <span class="brand-pill">ISL AI</span>
+                    </div>
+                    <span class="brand-tagline">ISL camera, speech, and text</span>
+                </div>
+            </div>
+
+            <div class="header-right">
+                <div class="api-status-pill" id="apiStatusPill" title="Backend Connection">
+                    <span class="status-dot online"></span>
+                    <span class="status-label" id="apiStatusLabel">SignMate Online</span>
+                </div>
+
+                <div class="user-profile-badge">
+                    <div class="user-avatar" id="userAvatar">U</div>
+                    <div class="user-details">
+                        <strong id="userName">User</strong>
+                        <span id="userStatusTag" class="user-role-tag">Verified</span>
+                    </div>
+                    <button type="button" class="btn-icon" onclick="logout()" title="Sign Out">
+                        <svg class="svg-icon" viewBox="0 0 24 24" style="width: 14px; height: 14px;"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <nav class="app-nav">
+        <div class="nav-scroll">
+            <button type="button" id="homeModeBtn" class="nav-tab active" onclick="switchMode('home')">
+                <span class="tab-icon">🏠</span>
+                <span class="tab-label">Dashboard</span>
+            </button>
+            <button type="button" id="signModeBtn" class="nav-tab" onclick="switchMode('sign')">
+                <span class="tab-icon">📷</span>
+                <span class="tab-label">Sign → Text</span>
+                <span class="tab-badge-pink">Live Cam</span>
+            </button>
+            <button type="button" id="speechModeBtn" class="nav-tab" onclick="switchMode('speech')">
+                <span class="tab-icon">🎙️</span>
+                <span class="tab-label">Speech → ISL</span>
+            </button>
+            <button type="button" id="textModeBtn" class="nav-tab" onclick="switchMode('text')">
+                <span class="tab-icon">✍️</span>
+                <span class="tab-label">Text → ISL</span>
+            </button>
+            <button type="button" id="dictModeBtn" class="nav-tab" onclick="switchMode('dict')">
+                <span class="tab-icon">📖</span>
+                <span class="tab-label">ISL Dictionary</span>
+                <span class="tab-badge-neutral">A-Z</span>
+            </button>
+            <button type="button" id="historyModeBtn" class="nav-tab" onclick="switchMode('history')">
+                <span class="tab-icon">🕒</span>
+                <span class="tab-label">History</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Workspace -->
+    <main class="app-main">
+
+        <!-- Mode: Dashboard -->
+        <section id="homeMode" class="mode-view">
+            <div class="hero-banner">
+                <div class="hero-text">
+                    <span class="hero-chip">ISL PLATFORM</span>
+                    <h1 class="hero-app-title">SignMate</h1>
+                    <h2 class="hero-app-subtitle">Real Time Two Way Sign Language and Speech Translator</h2>
+                    <p class="hero-tagline">A Bridge Between Common People and Sign Language Users</p>
+                    <div class="hero-cta-row">
+                        <button type="button" class="btn btn-primary" onclick="switchMode('sign')">
+                            📷 Open Camera
+                        </button>
+                        <button type="button" class="btn btn-white" onclick="switchMode('dict')">
+                            📖 Browse Dictionary
+                        </button>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="hero-card-stack">
+                        <div class="hero-hand-card" onclick="switchMode('sign')">
+                            <strong>📷 Camera Recognition</strong>
+                            <span>26 Indian Sign Language signs</span>
+                        </div>
+                        <div class="hero-hand-card" onclick="switchMode('speech')">
+                            <strong>🎙️ Voice Translation</strong>
+                            <span>Spoken English to visual ISL</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-title-row">
+                <div>
+                    <h3>Pick a mode</h3>
+                    <p class="text-muted">Start with whichever direction you need</p>
+                </div>
+            </div>
+
+            <div class="cards-grid">
+                <div class="flow-card" onclick="switchMode('sign')">
+                    <div class="flow-card-icon pastel-purple">
+                        <span style="font-size: 1.45rem;">📷</span>
+                    </div>
+                    <div class="flow-card-body">
+                        <h4>Sign to Text</h4>
+                        <p>Turn the camera on, sign letters, and build a sentence. You can also have it read out loud.</p>
+                        <span class="card-arrow">Open camera →</span>
+                    </div>
+                </div>
+
+                <div class="flow-card" onclick="switchMode('speech')">
+                    <div class="flow-card-icon pastel-blue">
+                        <span style="font-size: 1.45rem;">🎙️</span>
+                    </div>
+                    <div class="flow-card-body">
+                        <h4>Speech to ISL</h4>
+                        <p>Talk into the mic. The app spells the words in ISL as a slideshow (or a row of signs).</p>
+                        <span class="card-arrow">Start speaking →</span>
+                    </div>
+                </div>
+
+                <div class="flow-card" onclick="switchMode('text')">
+                    <div class="flow-card-icon pastel-green">
+                        <span style="font-size: 1.45rem;">✍️</span>
+                    </div>
+                    <div class="flow-card-body">
+                        <h4>Text to ISL</h4>
+                        <p>Type a word or sentence. Play the signs one by one, or look at the whole sequence.</p>
+                        <span class="card-arrow">Convert text →</span>
+                    </div>
+                </div>
+
+                <div class="flow-card" onclick="switchMode('dict')">
+                    <div class="flow-card-icon pastel-yellow">
+                        <span style="font-size: 1.45rem;">📖</span>
+                    </div>
+                    <div class="flow-card-body">
+                        <h4>ISL Dictionary (A–Z)</h4>
+                        <p>Photos for A – Z. Filter one-hand vs two-hand, click a card for a bigger picture and tips.</p>
+                        <span class="card-arrow">Open dictionary →</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Mode: Sign to Text -->
+        <section id="signMode" class="mode-view hidden">
+            <div class="mode-header">
+                <div>
+                    <h2>Sign to Text</h2>
+                    <p class="text-muted">Perform ISL alphabet handshapes to recognize letters and build sentences in real time.</p>
+                </div>
+                <div class="mode-header-actions">
+                    <span id="cameraStatusPill" class="badge badge-neutral">Camera Inactive</span>
+                </div>
+            </div>
+
+            <div class="two-col-grid">
+                <!-- Camera Viewport Card -->
+                <div class="card camera-card">
+                    <div class="card-header-bar">
+                        <h3>
+                            <svg class="svg-icon" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+                            Camera Viewport
+                        </h3>
+                        <div class="header-bar-controls">
+                            <label class="toggle-control" title="Flip camera horizontally">
+                                <input type="checkbox" id="mirrorToggle" checked onchange="toggleCameraMirror()">
+                                <span class="toggle-slider"></span>
+                                <span class="toggle-text">Mirror</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="camera-viewport">
+                        <video id="camera" class="mirrored" autoplay playsinline muted></video>
+                        <div id="cameraOverlay" class="camera-placeholder">
+                            <div class="placeholder-icon">
+                                <svg class="svg-icon" viewBox="0 0 24 24" style="width: 42px; height: 42px;"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+                            </div>
+                            <h4>Camera is off</h4>
+                            <p>Click Start Camera to activate real-time hand landmark tracking.</p>
+                            <button type="button" class="btn btn-primary" onclick="startCamera()">
+                                Start Camera
+                            </button>
+                        </div>
+                        <div id="cameraTargetReticle" class="camera-guide hidden">
+                            <div class="guide-frame">
+                                <span class="guide-corner top-left"></span>
+                                <span class="guide-corner top-right"></span>
+                                <span class="guide-corner bottom-left"></span>
+                                <span class="guide-corner bottom-right"></span>
+                                <span class="guide-label">Center Hands Here</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="camera-btn-bar">
+                        <button type="button" id="startCameraBtn" class="btn btn-primary" onclick="startCamera()">
+                            Start Camera
+                        </button>
+                        <button type="button" id="stopCameraBtn" class="btn btn-outline" onclick="stopCamera()" disabled>
+                            Stop Camera
+                        </button>
+                        <div class="auto-append-control" title="Automatically add letter when held steady for 1.2s">
+                            <label class="toggle-control">
+                                <input type="checkbox" id="autoAddToggle" onchange="toggleAutoAdd()">
+                                <span class="toggle-slider"></span>
+                                <span class="toggle-text">Auto-Add on Hold</span>
+                            </label>
+                            <div id="holdProgressBar" class="hold-progress hidden">
+                                <div id="holdProgressFill" class="hold-progress-fill"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recognition & Text Composer Card -->
+                <div class="card composer-card">
+                    <div class="card-header-bar">
+                        <h3>Detection & Text Builder</h3>
+                        <span id="translationStateBadge" class="badge badge-neutral">Waiting for hands</span>
+                    </div>
+
+                    <div class="prediction-hero-row">
+                        <div class="prediction-letter-box">
+                            <span class="box-label">Detected Sign</span>
+                            <div id="liveLetter" class="huge-letter">—</div>
+                        </div>
+
+                        <div class="prediction-metrics">
+                            <div class="metric-row">
+                                <span class="metric-title">Confidence</span>
+                                <strong id="confidenceLabel">0%</strong>
+                            </div>
+                            <div class="meter-bar-track">
+                                <div id="confidenceBar" class="meter-bar-fill" style="width: 0%;"></div>
+                            </div>
+
+                            <div class="metric-row" style="margin-top: 12px;">
+                                <span class="metric-title">Hands in View</span>
+                                <span id="handCountBadge" class="badge badge-outline">0 hands</span>
+                            </div>
+
+                            <div class="model-hint" id="modelFeedback">
+                                Show a letter sign to the camera.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-builder-area">
+                        <div class="builder-label-row">
+                            <label for="composedText">Composed Message</label>
+                            <span id="charCountLabel" class="text-counter">0 characters</span>
+                        </div>
+                        <textarea id="composedText" rows="4" placeholder="Recognized letters appear here. You can also edit or type manually..."></textarea>
+                    </div>
+
+                    <div class="builder-buttons-row">
+                        <button type="button" class="btn btn-secondary" onclick="addCurrentLetter()" title="Add detected letter">
+                            + Add Letter
+                        </button>
+                        <button type="button" class="btn btn-secondary" onclick="addSpace()" title="Add space">
+                            Space
+                        </button>
+                        <button type="button" class="btn btn-secondary" onclick="removeLastLetter()" title="Backspace">
+                            Backspace
+                        </button>
+                        <button type="button" class="btn btn-outline" onclick="clearComposedText()" title="Clear message">
+                            Clear
+                        </button>
+                    </div>
+
+                    <div class="builder-actions-footer">
+                        <button type="button" class="btn btn-outline" onclick="speakComposedText()" title="Read aloud">
+                            <svg class="svg-icon" viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+                            Speak
+                        </button>
+                        <button type="button" class="btn btn-outline" onclick="copyComposedText()" title="Copy to clipboard">
+                            <svg class="svg-icon" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                            Copy
+                        </button>
+                        <button type="button" class="btn btn-primary" onclick="saveSignTranslation()">
+                            Save Translation
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Mode: Speech to ISL -->
+        <section id="speechMode" class="mode-view hidden">
+            <div class="mode-header">
+                <div>
+                    <h2>Speech to ISL</h2>
+                    <p class="text-muted">Speak in English to generate sequential Indian Sign Language fingerspelling gestures.</p>
+                </div>
+                <div class="mode-header-actions">
+                    <span id="speechStatusBadge" class="badge badge-neutral">Microphone Inactive</span>
+                </div>
+            </div>
+
+            <div class="two-col-grid">
+                <!-- Audio Input Card -->
+                <div class="card speech-input-card">
+                    <div class="card-header-bar">
+                        <h3>
+                            <svg class="svg-icon" viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
+                            Voice Input
+                        </h3>
+                        <span class="badge badge-outline">Web Speech API</span>
+                    </div>
+
+                    <div id="micPulseArea" class="mic-pulse-container">
+                        <div class="mic-wave wave-1"></div>
+                        <div class="mic-wave wave-2"></div>
+                        <div class="mic-avatar">
+                            <svg class="svg-icon" viewBox="0 0 24 24" style="width: 28px; height: 28px;"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
+                        </div>
+                    </div>
+
+                    <div class="speech-control-bar">
+                        <button type="button" id="startSpeechBtn" class="btn btn-primary btn-lg" onclick="startSpeech()">
+                            Start Speaking
+                        </button>
+                        <button type="button" id="stopSpeechBtn" class="btn btn-outline btn-lg" onclick="stopSpeech()" disabled>
+                            Stop
+                        </button>
+                    </div>
+
+                    <div class="transcript-box">
+                        <div class="transcript-header">
+                            <span class="box-label">Recognized Transcript</span>
+                            <button type="button" id="toggleSpeechEditBtn" class="btn-text" onclick="toggleSpeechEdit()">
+                                Edit Text
+                            </button>
+                        </div>
+                        <div id="speechLiveTranscript" class="transcript-display">
+                            Click Start Speaking and speak clearly into your microphone.
+                        </div>
+                        <textarea id="speechEditField" class="hidden" rows="3" placeholder="Edit transcribed speech here..."></textarea>
+                        <div id="speechEditBtnRow" class="hidden edit-btn-row">
+                            <button type="button" class="btn btn-primary btn-sm" onclick="applySpeechEdit()">
+                                Apply & Generate Signs
+                            </button>
+                            <button type="button" class="btn btn-outline btn-sm" onclick="cancelSpeechEdit()">
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="speech-footer-actions">
+                        <button type="button" class="btn btn-outline btn-sm" onclick="clearSpeech()">
+                            Clear
+                        </button>
+                        <button type="button" class="btn btn-primary btn-sm" onclick="saveSpeechTranslation()">
+                            Save Translation
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Sign Presentation Card -->
+                <div class="card isl-output-card">
+                    <div class="card-header-bar">
+                        <div class="header-title-group">
+                            <h3>ISL Gesture Sequence</h3>
+                        </div>
+                        <div class="view-switch-pills">
+                            <button type="button" id="speechViewSlideshowBtn" class="pill-btn active" onclick="switchSpeechSignView('slideshow')">
+                                Slideshow
+                            </button>
+                            <button type="button" id="speechViewGridBtn" class="pill-btn" onclick="switchSpeechSignView('grid')">
+                                All Signs
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Slideshow View -->
+                    <div id="speechSlideshowView" class="isl-presentation-box">
+                        <div id="speechSignViewer" class="sign-viewer-stage">
+                            <div class="sign-empty-state">
+                                <span class="empty-icon">
+                                    <svg class="svg-icon" viewBox="0 0 24 24" style="width: 36px; height: 36px;"><path d="M18 11V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v0"></path><path d="M14 10V4a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v2"></path><path d="M10 10.5V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v8"></path><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"></path></svg>
+                                </span>
+                                <p>Spoken words will appear as ISL gesture sequences here</p>
+                            </div>
+                        </div>
+
+                        <div id="speechProgressDots" class="slide-progress-dots"></div>
+
+                        <div id="speechSlideControls" class="slideshow-controls-bar hidden">
+                            <button type="button" class="btn btn-outline btn-icon-round" onclick="prevSpeechSlide()" title="Previous Sign">
+                                ◀
+                            </button>
+                            <button type="button" id="playSpeechSlideBtn" class="btn btn-primary btn-play-replay" onclick="toggleSpeechPlay()" title="Play / Replay">
+                                <span id="speechPlayIcon">▶</span>
+                                <span id="speechPlayLabel">Play</span>
+                            </button>
+                            <button type="button" class="btn btn-outline btn-icon-round" onclick="nextSpeechSlide()" title="Next Sign">
+                                ▶
+                            </button>
+
+                            <div class="scrub-container">
+                                <input type="range" id="speechScrubSlider" min="0" max="0" value="0" oninput="scrubSpeechSlide(this.value)">
+                                <span id="speechSlideCounter" class="slide-counter">0 / 0</span>
+                            </div>
+
+                            <div class="speed-selector">
+                                <label for="speechSpeedSelect">Speed</label>
+                                <select id="speechSpeedSelect" onchange="changeSpeechSlideSpeed(this.value)">
+                                    <option value="1600">0.5x</option>
+                                    <option value="1000" selected>1.0x</option>
+                                    <option value="600">1.5x</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="playback-help-tip">
+                            <span>Plays once sequentially. Use <strong>Replay</strong> to replay the sequence.</span>
+                        </div>
+                    </div>
+
+                    <!-- Sequence Grid View -->
+                    <div id="speechGridView" class="isl-grid-container hidden">
+                        <div id="speechSignGrid" class="sign-card-grid"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Mode: Text to ISL -->
+        <section id="textMode" class="mode-view hidden">
+            <div class="mode-header">
+                <div>
+                    <h2>Text to ISL</h2>
+                    <p class="text-muted">Type any text to convert it into Indian Sign Language fingerspelling signs.</p>
+                </div>
+            </div>
+
+            <div class="two-col-grid">
+                <!-- Text Input Card -->
+                <div class="card text-input-card">
+                    <div class="card-header-bar">
+                        <h3>
+                            <svg class="svg-icon" viewBox="0 0 24 24"><polyline points="4 7 4 4 20 4 20 7"></polyline><line x1="9" y1="20" x2="15" y2="20"></line><line x1="12" y1="4" x2="12" y2="20"></line></svg>
+                            Text Input
+                        </h3>
+                        <span id="textInputCount" class="text-counter">0 words</span>
+                    </div>
+
+                    <textarea id="textToSignInput" rows="5" placeholder="Type words or sentences here... e.g. 'HELLO INDIA'"></textarea>
+
+                    <div class="quick-chips-row">
+                        <span class="chips-label">Sample Words:</span>
+                        <div class="chips-list">
+                            <button type="button" class="chip" onclick="insertQuickPhrase('HELLO')">HELLO</button>
+                            <button type="button" class="chip" onclick="insertQuickPhrase('INDIA')">INDIA</button>
+                            <button type="button" class="chip" onclick="insertQuickPhrase('WELCOME')">WELCOME</button>
+                            <button type="button" class="chip" onclick="insertQuickPhrase('SIGNS')">SIGNS</button>
+                            <button type="button" class="chip" onclick="insertQuickPhrase('FRIEND')">FRIEND</button>
+                            <button type="button" class="chip" onclick="insertQuickPhrase('PEACE')">PEACE</button>
+                            <button type="button" class="chip" onclick="insertQuickPhrase('LEARN')">LEARN</button>
+                            <button type="button" class="chip" onclick="insertQuickPhrase('HAPPY')">HAPPY</button>
+                            <button type="button" class="chip" onclick="insertQuickPhrase('SMILE')">SMILE</button>
+                        </div>
+                    </div>
+
+                    <div class="text-action-bar">
+                        <button type="button" class="btn btn-primary" onclick="convertTextToSign()">
+                            Convert to Signs
+                        </button>
+                        <button type="button" class="btn btn-outline" onclick="clearTextToSign()">
+                            Clear
+                        </button>
+                        <button type="button" class="btn btn-outline" onclick="saveTextTranslation()">
+                            Save Translation
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Sign Presentation Card -->
+                <div class="card isl-output-card">
+                    <div class="card-header-bar">
+                        <div class="header-title-group">
+                            <h3>ISL Gesture Sequence</h3>
+                        </div>
+                        <div class="view-switch-pills">
+                            <button type="button" id="textViewSlideshowBtn" class="pill-btn active" onclick="switchTextSignView('slideshow')">
+                                Slideshow
+                            </button>
+                            <button type="button" id="textViewGridBtn" class="pill-btn" onclick="switchTextSignView('grid')">
+                                All Signs
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Slideshow View -->
+                    <div id="textSlideshowView" class="isl-presentation-box">
+                        <div id="textSignViewer" class="sign-viewer-stage">
+                            <div class="sign-empty-state">
+                                <span class="empty-icon">
+                                    <svg class="svg-icon" viewBox="0 0 24 24" style="width: 36px; height: 36px;"><path d="M18 11V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v0"></path><path d="M14 10V4a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v2"></path><path d="M10 10.5V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v8"></path><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"></path></svg>
+                                </span>
+                                <p>Type text and click "Convert to Signs" to view the sequence</p>
+                            </div>
+                        </div>
+
+                        <div id="textProgressDots" class="slide-progress-dots"></div>
+
+                        <div id="textSlideControls" class="slideshow-controls-bar hidden">
+                            <button type="button" class="btn btn-outline btn-icon-round" onclick="prevTextSlide()" title="Previous Sign">
+                                ◀
+                            </button>
+                            <button type="button" id="playTextSlideBtn" class="btn btn-primary btn-play-replay" onclick="toggleTextPlay()" title="Play / Replay">
+                                <span id="textPlayIcon">▶</span>
+                                <span id="textPlayLabel">Play</span>
+                            </button>
+                            <button type="button" class="btn btn-outline btn-icon-round" onclick="nextTextSlide()" title="Next Sign">
+                                ▶
+                            </button>
+
+                            <div class="scrub-container">
+                                <input type="range" id="textScrubSlider" min="0" max="0" value="0" oninput="scrubTextSlide(this.value)">
+                                <span id="textSlideCounter" class="slide-counter">0 / 0</span>
+                            </div>
+
+                            <div class="speed-selector">
+                                <label for="textSpeedSelect">Speed</label>
+                                <select id="textSpeedSelect" onchange="changeTextSlideSpeed(this.value)">
+                                    <option value="1600">0.5x</option>
+                                    <option value="1000" selected>1.0x</option>
+                                    <option value="600">1.5x</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="playback-help-tip">
+                            <span>Plays once sequentially. Use <strong>Replay</strong> to replay the sequence.</span>
+                        </div>
+                    </div>
+
+                    <!-- Sequence Grid View -->
+                    <div id="textGridView" class="isl-grid-container hidden">
+                        <div id="textSignGrid" class="sign-card-grid"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Mode: Visual Dictionary -->
+        <section id="dictMode" class="mode-view hidden">
+            <div class="mode-header">
+                <div>
+                    <h2>Indian Sign Language Alphabet (A–Z)</h2>
+                    <p class="text-muted">Standard 26-letter fingerspelling reference catalog. Click any card to inspect high-resolution instructions.</p>
+                </div>
+                <div class="dict-count-badge-wrapper">
+                    <span class="badge badge-primary">26 Letters</span>
+                </div>
+            </div>
+
+            <div class="dict-filter-row">
+                <div class="dict-search-wrapper">
+                    <span class="search-icon">
+                        <svg class="svg-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    </span>
+                    <input type="text" id="dictSearchInput" placeholder="Search by letter or description..." oninput="filterDictionary(this.value)">
+                </div>
+
+                <div id="dictAlphaFilterPills" class="dict-filter-pills">
+                    <button type="button" id="filterAllBtn" class="pill-btn active" onclick="setDictAlphaFilter('all')">All Letters (26)</button>
+                    <button type="button" id="filterSingleBtn" class="pill-btn" onclick="setDictAlphaFilter('One-Hand')">One-Hand (6)</button>
+                    <button type="button" id="filterTwoBtn" class="pill-btn" onclick="setDictAlphaFilter('Two-Hand')">Two-Hand (20)</button>
+                </div>
+            </div>
+
+            <div id="dictionaryGrid" class="dictionary-grid"></div>
+        </section>
+
+        <!-- Mode: History -->
+        <section id="historyMode" class="mode-view hidden">
+            <div class="mode-header">
+                <div>
+                    <h2>Translation History</h2>
+                    <p class="text-muted">Saved translation sessions and transcript records.</p>
+                </div>
+                <div class="history-bulk-actions">
+                    <button type="button" class="btn btn-outline btn-sm" onclick="exportHistory('txt')">
+                        <svg class="svg-icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                        Export TXT
+                    </button>
+                    <button type="button" class="btn btn-outline btn-sm" onclick="exportHistory('json')">
+                        <svg class="svg-icon" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                        Export JSON
+                    </button>
+                    <button type="button" class="btn btn-danger-outline btn-sm" onclick="clearAllHistory()">
+                        <svg class="svg-icon" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                        Clear All
+                    </button>
+                </div>
+            </div>
+
+            <div class="card history-card">
+                <div class="history-filter-bar">
+                    <div class="history-search-input">
+                        <span>
+                            <svg class="svg-icon" viewBox="0 0 24 24" style="width: 14px; height: 14px;"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                        </span>
+                        <input type="text" id="historySearchInput" placeholder="Filter saved records..." oninput="filterHistoryList(this.value)">
+                    </div>
+
+                    <div class="history-tabs">
+                        <button type="button" class="history-tab active" onclick="setHistoryFilter('all', this)">All</button>
+                        <button type="button" class="history-tab" onclick="setHistoryFilter('Sign → Text', this)">Sign to Text</button>
+                        <button type="button" class="history-tab" onclick="setHistoryFilter('Speech → ISL', this)">Speech to ISL</button>
+                        <button type="button" class="history-tab" onclick="setHistoryFilter('Text → ISL', this)">Text to ISL</button>
+                    </div>
+
+                    <span id="historyCountBadge" class="badge badge-neutral">0 entries</span>
+                </div>
+
+                <div id="historyListContainer" class="history-items-container">
+                    <div class="empty-state">
+                        <span class="empty-icon">
+                            <svg class="svg-icon" viewBox="0 0 24 24" style="width: 32px; height: 32px;"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                        </span>
+                        <h4>No saved records yet</h4>
+                        <p>Translations saved from Camera, Speech, or Text modes will appear here.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- App Footer -->
+    <footer class="app-footer">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <svg class="svg-icon" viewBox="0 0 24 24" style="width: 16px; height: 16px; color: var(--primary);">
+                    <path d="M18 11V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v0"></path>
+                    <path d="M14 10V4a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v2"></path>
+                    <path d="M10 10.5V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v8"></path>
+                    <path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"></path>
+                </svg>
+                <strong>SignMate</strong>
+                <span>• Indian Sign Language Platform</span>
+            </div>
+            <div class="footer-links">
+                <span>Indian Sign Language Recognition Engine</span>
+            </div>
+        </div>
+    </footer>
+</div>
+
+<!-- Letter Detail Modal -->
+<div id="letterModal" class="modal-backdrop hidden" onclick="if(event.target === this) closeLetterModal()">
+    <div class="modal-card">
+        <button type="button" class="modal-close" onclick="closeLetterModal()">&times;</button>
+        <div class="modal-content">
+            <div class="modal-image-col">
+                <img id="modalLetterImg" src="" alt="ISL Sign Letter">
+            </div>
+            <div class="modal-info-col">
+                <div class="modal-badge-row">
+                    <span id="modalLetterBadge" class="huge-badge">A</span>
+                    <span id="modalTypeBadge" class="badge badge-primary">Two-Hand</span>
+                </div>
+                <h3 id="modalTitle">Letter A in Indian Sign Language</h3>
+                <p id="modalDesc" class="modal-desc"></p>
+                <div class="modal-tips-box">
+                    <strong>Hand Execution:</strong>
+                    <p id="modalTipText"></p>
+                </div>
+                <div class="modal-btn-row">
+                    <button type="button" class="btn btn-primary" onclick="practiceLetterInCamera()">
+                        <svg class="svg-icon" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+                        Open in Camera
+                    </button>
+                    <button type="button" class="btn btn-outline" onclick="closeLetterModal()">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Application JavaScript -->
+<script src="/static/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 220" width="100%" height="100%">
+  <defs>
+    <radialGradient id="bgGrad_WHY" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#fefce8"/>
+    </radialGradient>
+  </defs>
+  <rect width="260" height="220" rx="18" fill="url(#bgGrad_WHY)" stroke="#e2e8f0" stroke-width="2"/>
+  <g transform="translate(130, 105)">
+    
+            <path d="M-15,-15 C-25,-30 25,-30 15,-15 C10,-5 12,5 8,12 L-8,12 C-12,5 -10,-5 -15,-15 Z" fill="#fef08a" stroke="#ca8a04" stroke-width="3"/>
+            <line x1="-6" y1="18" x2="6" y2="18" stroke="#ca8a04" stroke-width="3" stroke-linecap="round"/>
+            <line x1="-4" y1="24" x2="4" y2="24" stroke="#ca8a04" stroke-width="2.5" stroke-linecap="round"/>
+        
+  </g>
+  <rect x="14" y="14" width="38" height="38" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
+  <text x="33" y="39" font-size="20" text-anchor="middle">💡</text>
+  <text x="130" y="195" font-family="'Plus Jakarta Sans', sans-serif" font-size="14" font-weight="800" fill="#eab308" text-anchor="middle">WHY</text>
+</svg>
